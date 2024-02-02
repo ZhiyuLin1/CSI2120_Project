@@ -8,9 +8,22 @@ public class SimilaritySearch{
 }
 
 public class ColorImage{
+    public int[][][] pixels;
+    public int width;
+    public int height;
+    public int depth;
 
     public ColorImage(String filename){
-
+        try{
+            File file = new File(filename);
+            
+            if (filename.endsWith(".ppm")){
+                readPPM(file);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
-    }
+    
+}
 }
