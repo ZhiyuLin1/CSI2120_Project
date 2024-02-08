@@ -1,0 +1,3 @@
+javac SimilaritySearch.java
+java SimilaritySearch q00.ppm imageDataset2_15_20     
+
