@@ -75,15 +75,19 @@ public class ColorHistogram {
         
         for (int i = 0; i < histogram.length; i++) {
             d_H1H2 += Math.min(histogram[i], histToCompare[i]); 
-            sum_all_hist_number += histogram[i]; // calculate the sum of all the numbers in the quiery image histogram 
+            sum_all_hist_number += histogram[i]; // calculate the sum of all the numbers in the query image histogram 
         }
-        similarityResult = d_H1H2 / sum_all_hist_number;  // similarity result [0,1]
+        similarityResult = d_H1H2 / sum_all_hist_number;  // normalized similarity result [0,1]
         
         return similarityResult;
+
     }
 
+    
     public double[] getHistogram() {
+
         return histogram;
+
     }
 
 }
