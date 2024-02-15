@@ -11,13 +11,23 @@ public class SimilaritySearch{
     public static void main(String[] args){
         String queryImageName = args[0];
         String datasetFolder = args[1];
+        int depth = 3;
 
         long startTime = System.nanoTime(); // start time
 
 
         ColorImage queryImage = new ColorImage("queryImages/" + queryImageName); // load query image
-        ColorHistogram queryHistogram = new ColorHistogram(3); // color depth d = 3
-        queryHistogram.setImage(queryImage);
+
+       
+        ColorHistogram queryHistogramDone = new ColorHistogram(3); // color depth d = 3
+        
+        
+
+        ColorImage queryHistogram = new ColorImage("queryImages/" + queryImageName);
+        queryHistogram.reduceColor(depth); // depth = 3
+        queryHistogramDone.setImage(queryHistogram); 
+
+
 
 
         File datasetDir = new File(datasetFolder);
@@ -29,7 +39,7 @@ public class SimilaritySearch{
         for (int i = 0; i < datasetFiles.length; i++) {
             File file = datasetFiles[i];
             ColorHistogram datasetHistogram = new ColorHistogram(file.getAbsolutePath());
-            double similarity = queryHistogram.compare(datasetHistogram);
+            double similarity = queryHistogramDone.compare(datasetHistogram);
             similarityData.put(file.getName(), similarity);
         }
 
@@ -56,7 +66,7 @@ public class SimilaritySearch{
 
         // output query image histogram
         String histogramFilename = queryImageName + ".hist.txt"; 
-        queryHistogram.saveHistogram(histogramFilename);
+        queryHistogramDone.saveHistogram(histogramFilename);
         System.out.println("\nQuery image histogram saved to: " + histogramFilename);
 
         

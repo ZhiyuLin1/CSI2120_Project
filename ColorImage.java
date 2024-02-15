@@ -9,7 +9,10 @@ public class ColorImage{
     public int width;
     public int height;
     public int depth;
-    public int totalPixels;
+    public double totalPixels;
+    
+    public int d=3;
+    public double[] histogram = new double[(int) Math.pow(2, d*3)]; 
 
     public ColorImage(String filename){
         try{
@@ -59,8 +62,8 @@ public class ColorImage{
 
 
     public void reduceColor(int d){
+    
         
-        double[] histogram = new double[(int) Math.pow(2, d*3)]; 
 
         //bit shifts
         for (int i = 0; i < width; i++) {
@@ -73,12 +76,18 @@ public class ColorImage{
                 histogram[index] += 1;
             }
         }
-
+       
+        
         //Normalize H
         totalPixels = width*height;
+        //System.out.println(totalPixels);
         for (int i=0; i < histogram.length; i++){
+            //System.out.println(histogram[i]);
+            
             histogram[i] = (histogram[i])/totalPixels;
+            //System.out.println(histogram[i]);
         }
+        
 
     }
 

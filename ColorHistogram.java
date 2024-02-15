@@ -33,6 +33,7 @@ public class ColorHistogram {
     }
 
     public void setImage(ColorImage image) {
+        /* 
         Arrays.fill(histogram, 0);
     
         int width = image.getWidth();
@@ -49,6 +50,10 @@ public class ColorHistogram {
                 histogram[index]++;
             }
         }
+        */
+
+        histogram = image.histogram;
+
     }
     
     public void saveHistogram(String filename) {
@@ -72,14 +77,21 @@ public class ColorHistogram {
         double d_H1H2 = 0; 
         double sum_all_hist_number = 0; 
         double similarityResult = 0;
+
+        System.out.println(histogram.length);
         
         for (int i = 0; i < histogram.length; i++) {
             d_H1H2 += Math.min(histogram[i], histToCompare[i]); 
+            
             sum_all_hist_number += histogram[i]; // calculate the sum of all the numbers in the query image histogram 
         }
         similarityResult = d_H1H2 / sum_all_hist_number;  // normalized similarity result [0,1]
         
+       
+        System.out.println("//////////////////////////////////////////////////////////////////////");
+        System.out.println(similarityResult);
         return similarityResult;
+        
 
     }
 
