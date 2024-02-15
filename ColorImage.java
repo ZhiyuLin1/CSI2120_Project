@@ -1,4 +1,5 @@
 // Zhiyu Lin 300255509
+// yitao CUI 300345709
 
 import java.io.File;
 import java.io.IOException;
@@ -80,13 +81,15 @@ public class ColorImage{
         
         //Normalize H
         totalPixels = width*height;
-        //System.out.println(totalPixels);
+        
         for (int i=0; i < histogram.length; i++){
-            //System.out.println(histogram[i]);
             
-            histogram[i] = (histogram[i])/totalPixels;
-            //System.out.println(histogram[i]);
+            double temp = 0.0;
+            temp = (histogram[i])/totalPixels;
+            histogram[i] = temp;
+            
         }
+        
         
 
     }

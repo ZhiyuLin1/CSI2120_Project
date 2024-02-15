@@ -1,4 +1,5 @@
 // Zhiyu Lin 300255509
+// yitao CUI 300345709
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,9 +66,9 @@ public class SimilaritySearch{
 
 
         // output query image histogram
-        String histogramFilename = queryImageName + ".hist.txt"; 
+        String histogramFilename = queryImageName + "_normalized" + ".hist.txt"; 
         queryHistogramDone.saveHistogram(histogramFilename);
-        System.out.println("\nQuery image histogram saved to: " + histogramFilename);
+        System.out.println("\nQuery image normalized histogram saved to: " + histogramFilename);
 
         
         // running time
