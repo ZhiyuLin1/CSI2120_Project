@@ -20,7 +20,7 @@ public class SimilaritySearch{
         ColorImage queryImage = new ColorImage("queryImages/" + queryImageName); // load query image
 
        
-        ColorHistogram queryHistogramDone = new ColorHistogram(3); // color depth d = 3
+        ColorHistogram queryHistogramDone = new ColorHistogram(depth); // color depth d = 3
         
         
 
