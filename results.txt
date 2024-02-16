@@ -1,0 +1,19 @@
+D:\My_Things\University\2024_Winter\CSI2120\CSI2120_Project>javac SimilaritySearch.java
+Picked up JAVA_TOOL_OPTIONS: -Duser.language=en
+
+D:\My_Things\University\2024_Winter\CSI2120\CSI2120_Project>java SimilaritySearch q00.ppm imageDataset2_15_20
+Picked up JAVA_TOOL_OPTIONS: -Duser.language=en
+5 most similar images to the query image:
+
+Top 1 = 1144.jpg.txt | Similarity: 1.0
+Top 2 = 3806.jpg.txt | Similarity: 0.7074537037037036
+Top 3 = 3714.jpg.txt | Similarity: 0.668431712962963
+Top 4 = 3756.jpg.txt | Similarity: 0.6620254629629632
+Top 5 = 2462.jpg.txt | Similarity: 0.6491030092592595
+
+Query image normalized histogram saved to: q00.ppm_normalized.hist.txt
+
+running time is 1265 ms
+
+D:\My_Things\University\2024_Winter\CSI2120\CSI2120_Project>
+
