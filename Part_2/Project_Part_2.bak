@@ -1,0 +1,7 @@
+#lang racket
+(define (similaritySearch queryHistogramFilename imageDatasetDirectory)
+  
+
+
+
+         )

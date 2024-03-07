@@ -1,0 +1,123 @@
+#lang racket
+
+(define (read-and-process-file filename)
+  (with-input-from-file filename
+    (lambda ()
+      (letrec ((read-loop (lambda (line acc)
+                            (if (eof-object? line)
+                                (reverse acc)
+                                (let ((numbers (if (null? acc)  ; If acc is empty, it's the first line
+                                                   (list (safe-string->number line))  ; Treat as a single number
+                                                   (append (string->numbers line) acc))))  ; Otherwise, process multiple numbers
+                                  (read-loop (read-line) numbers))))))
+        (read-loop (read-line) '())))))
+
+(define (string->numbers str)
+  (let ((numbers (string-split str)))
+    (strings-to-numbers numbers)))
+
+(define (string-split str)
+  (filter (lambda (s) (> (string-length s) 0))
+          (regexp-split #px"\\s+" str)))
+
+(define (safe-string->number s)
+  (let ((num (string->number s)))
+    (if num num 0)))
+
+(define (strings-to-numbers strings)
+  (if (null? strings)
+      '()
+      (cons (safe-string->number (car strings))
+            (strings-to-numbers (cdr strings)))))
+
+;; Test the reading and processing
+(define test-file-content (read-and-process-file "q00.ppm_normalized.hist.txt"))
+(for-each (lambda (x) (display x) (display " ")) test-file-content)
+
+
+
+;======================================================================================
+
+
+;; Assumes histogram is a list of numbers from a dataset image histogram file
+(define (normalize-histogram hist)
+  (let ((total (apply + hist)))
+    (normalize-helper hist total)))
+
+(define (normalize-helper hist total)
+  (if (null? hist)
+      '()
+      (cons (/ (car hist) total)
+            (normalize-helper (cdr hist) total))))
+
+;; Debugging function for normalization
+(define (debug-normalize-histogram filepath)
+  (let ((hist (read-and-process-file filepath)))
+    (let ((normalized-hist (normalize-histogram (cdr hist))))  ; Skip the first number if it's metadata like total count
+      (display "Normalized Histogram: ")
+      (for-each (lambda (x) (display x) (display " ")) normalized-hist)
+      (newline))))
+
+;===========================================================================================
+
+(define (calculate-similarity hist1 hist2)
+  (if (or (null? hist1) (null? hist2))
+      0
+      (+ (min (car hist1) (car hist2))
+         (calculate-similarity (cdr hist1) (cdr hist2)))))
+
+;===========================================================================================
+
+(define (process-directory query-histogram directory)
+  (let ((files (directory-list directory)))
+    (process-files files query-histogram)))
+
+(define (process-files files query-histogram)
+  (if (null? files)
+      '()
+      (let* ((file (car files))
+             (filename (path->string file))
+             (hist (if (string=? filename "q00.ppm_normalized.hist.txt")  ; Check if it's the query file or a dataset file
+                       (read-and-process-file filename)
+                       (normalize-histogram (cdr (read-and-process-file filename)))))
+             (similarity (calculate-similarity query-histogram hist))
+             (rest-results (process-files (cdr files) query-histogram)))
+        (cons (cons filename similarity) rest-results))))
+
+;; Debugging for directory processing
+(define (debug-process-directory query-histogram-file directory)
+  (let ((query-histogram (cdr (read-and-process-file query-histogram-file))))  ; Assume the first line of query is not part of the histogram
+    (let ((results (process-directory query-histogram directory)))
+      (for-each (lambda (result)
+                  (display (car result))
+                  (display " - Similarity: ")
+                  (display (cdr result))
+                  (newline))
+                results))))
+
+
+;=============================================================================================
+(define (display-top-similarities similarities n)
+  (let ((sorted-similarities (sort similarities (lambda (x y) (> (cdr x) (cdr y))))))
+    (display-similarities sorted-similarities n 0)))
+
+(define (display-similarities similarities n count)
+  (when (and (not (null? similarities)) (< count n))
+    (let ((pair (car similarities)))
+      (display "Top ")
+      (display (+ count 1))
+      (display " = ")
+      (display (car pair))
+      (display " | Similarity: ")
+      (display (cdr pair))
+      (newline)
+      (display-similarities (cdr similarities) n (+ count 1)))))
+
+;; Debugging for displaying top similarities
+(define (debug-display-top-similarities query-histogram-file directory n)
+  (debug-process-directory query-histogram-file directory)
+  (let ((query-histogram (cdr (read-and-process-file query-histogram-file))))
+    (let ((results (process-directory query-histogram directory)))
+      (display-top-similarities results n))))
+
+
