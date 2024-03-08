@@ -7,20 +7,13 @@
       (let read-loop ((line (read-line)) (acc '()))
         (if (eof-object? line)
             (if normalize? 
-                (normalize-histogram acc (apply + acc))  ; Normalize if required
+                (display "false")  ;移除normalize进行测试
                 (reverse acc))
             (read-loop (read-line) (cons (safe-string->number line) acc)))))))
 
 (define (safe-string->number s)
   (let ((num (string->number s)))
     (if num num 0)))
-
-
-(define (normalize-histogram hist total)
-  (if (null? hist)
-      '()
-      (cons (/ (car hist) 172800)
-            (normalize-histogram (cdr hist) total))))
 
 
 
@@ -74,5 +67,5 @@
     (display-similarities similarities 0 5)))
 
 ;; Usage example, replace the placeholders with actual paths
-(main "q01.ppm_normalized.hist.txt" 
+(main "q00.ppm_hist.txt" 
       "imageDataset2_15_20")

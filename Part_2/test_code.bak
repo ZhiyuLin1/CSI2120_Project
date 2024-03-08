@@ -1,0 +1,16 @@
+#lang racket
+(define (read-helper p)
+  (let ((x (read-line p)))
+    (if (eof-object? x)
+        '()
+        (cons (substring x 0 (- (string-length x) 1)) (read-helper p))
+        )
+    )
+  )
+
+(define (readfromfile filename)
+   (let ((p (open-input-file filename)))
+     (read-helper p)
+    )
+  )
+
