@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"image"
 	"os"
-	_ "image/jpeg"
+	"image/jpeg"
 )
 
 type Histo struct {
