@@ -1,3 +1,5 @@
+// Zhiyu Lin 300255509, Yitao Cui 300345709
+
 package main
 
 import (
@@ -9,6 +11,7 @@ import (
     "path/filepath"
     "sort"
     "sync"
+    "time"
 )
 
 type Histo struct {
@@ -69,17 +72,13 @@ func similarity(h1, h2 []int) float64 {
     return dH1H2 / sumAllHistNumbers
 }
 
-func min(a, b int) int {
-    if a < b {
-        return a
-    }
-    return b
-}
-
 func main() {
     if len(os.Args) != 3 {
-        log.Fatalf("Usage: go run similaritySearch.go <queryImageFilename> <imageDatasetDirectory>")
+        log.Fatalf("Usage: go run similaritySearch.go <queryImageFilename> <imageDatasetDirectory> \nEx:>> go run similaritySearch.go q00.jpg imageDataset2_15_20 ")
     }
+
+
+    startTime := time.Now() // start timer
 
     queryImageName := os.Args[1]
     datasetDir := os.Args[2]
@@ -98,7 +97,8 @@ func main() {
         log.Fatalf("Failed to list dataset images: %v", err)
     }
 
-    var K int = 4
+    var K int = 1048       // set K here
+
     slices := make([][]string, K)
     for i, path := range filepaths {
         sliceIndex := i % K
@@ -132,10 +132,15 @@ func main() {
         return ss[i].Value > ss[j].Value
     })
 
+    endTime := time.Now() // end timer
+    
+    // output the Top 5 results
     fmt.Println("5 most similar images to the query image:")
     for i := 0; i < 5 && i < len(ss); i++ {
         fmt.Printf("Top %d = %s | Similarity: %.12f\n", i+1, ss[i].Key, ss[i].Value)
     }
+    
+    fmt.Printf("\nRunning time: %v\nK = %d", endTime.Sub(startTime), K) // output running time and K
 }
 
 type kv struct {
