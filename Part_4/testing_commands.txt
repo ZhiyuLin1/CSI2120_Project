@@ -1,0 +1,17 @@
+similarity_search('q00.jpg.txt',S).
+similarity_search('q01.jpg.txt',S).
+similarity_search('q02.jpg.txt',S).
+similarity_search('q03.jpg.txt',S).
+similarity_search('q04.jpg.txt',S).
+similarity_search('q05.jpg.txt',S).
+similarity_search('q06.jpg.txt',S).
+similarity_search('q07.jpg.txt',S).
+similarity_search('q08.jpg.txt',S).
+similarity_search('q09.jpg.txt',S).
+similarity_search('q10.jpg.txt',S).
+similarity_search('q11.jpg.txt',S).
+similarity_search('q12.jpg.txt',S).
+similarity_search('q13.jpg.txt',S).
+similarity_search('q14.jpg.txt',S).
+similarity_search('q15.jpg.txt',S).
+
